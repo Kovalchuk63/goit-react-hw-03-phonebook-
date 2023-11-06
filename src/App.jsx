@@ -27,6 +27,15 @@ export class App extends React.Component {
   }
 
   addContact = newContact => {
+    const isContactExists = this.state.contacts.some(
+      contact => contact.name === newContact.name
+    );
+
+    if (isContactExists) {
+      alert(`Контакт з іменем ${newContact.name} вже існує.`);
+      return;
+    }
+
     this.setState(prevState => {
       return {
         contacts: [...prevState.contacts, { ...newContact, id: nanoid() }],
@@ -62,7 +71,7 @@ export class App extends React.Component {
       <React.Fragment>
         <Layout>
           <TitleH1>Phonebook</TitleH1>
-          <Phonebook onAddContact={this.addContact} contacts={contacts} />
+          <Phonebook onAddContact={this.addContact} />
         </Layout>
         {contacts.length > 0 && (
           <Layout>
